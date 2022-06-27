@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Toy - Board</h2>
+        <div class="mt-3">
+            <a href="/board/write" class="btn btn-primary">Register</a>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Title.</th>
+                    <th scope="col">Register ID.</th>
+                    <th scope="col">Register Time.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="list, status : ${result.list}" th:with="paging=${result.paging}">
+                    <th scope="row"><span th:text="${result.totalCnt - status.index - (paging.pageNumber  * paging.pageSize)}"></span></th>
+                    <td>
+                        <a th:href="@{/board/write(id=${list.id})}">
+                            <span th:text="${list.title}"></span>
+                        </a>
+                    </td>
+                    <td th:text="${list.registerId}">Otto</td>
+                    <td th:text="${list.registerTime}">@mdo</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col">
+                <ul class="pagination">
+                    <li class="page-item" th:each="index : ${#numbers.sequence(1, result.totalPage)}" th:with="paging=${result.paging}">
+                        <a class="page-link"
+                           th:classappend="${paging.pageNumber  ==  (index-1)} ? bg-primary : bg-secondary"
+                           th:href="@{/board(page=${index - 1}, size=${paging.pageSize})}">
+                            <span class="text-white" th:text="${index}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

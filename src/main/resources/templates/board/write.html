@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Board - Write</h2>
+        <form id="frmWrite" action="/board/save" method="post">
+            <div th:if="${info == null}">
+                <input type="hidden" name="registerId" value="999">
+                <input type="hidden" name="modifyId" value="999">
+                <div class="mb-3">
+                    <label class="form-label font-weight-bold">Title.</label>
+                    <input type="text" class="form-control" name="title" maxlength="25" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Contents.</label>
+                    <textarea class="form-control" name="contents" rows="5" maxlength="1000" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Use.</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="useYn" id="flexRadioDefault1" value="Y" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">Y</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="useYn" id="flexRadioDefault2" value="N">
+                        <label class="form-check-label" for="flexRadioDefault2">N</label>
+                    </div>
+                </div>
+                <div class="float-start">
+                    <button type="button" class="btn btn-success" onclick="javascript:location.href='/board'">Previous</button>
+                </div>
+                <div class="float-end">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            <div th:unless="${info == null}">
+                <input type="hidden" name="id" th:value="${info.id}">
+                <input type="hidden" name="registerId" th:value="${info.registerId}">
+                <input type="hidden" name="modifyId" th:value="${info.modifyId}">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Title.</label>
+                    <input type="text" class="form-control" name="title" maxlength="25" th:value="${info.title}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Contents.</label>
+                    <textarea class="form-control" name="contents" rows="5" maxlength="1000" th:text="${info.contents}" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Use.</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="useYn" id="flexRadioDefault1" value="Y" th:checked="${info.useYn == 'Y'}">
+                        <label class="form-check-label" for="flexRadioDefault1">Y</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="useYn" id="flexRadioDefault2" value="N" th:checked="${info.useYn == 'N'}">
+                        <label class="form-check-label" for="flexRadioDefault2">N</label>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col">
+                        <label class="fw-bold">Register ID.</label>
+                        <span th:text="${info.registerId}">
+                    </div>
+                    <div class="col">
+                        <label class="fw-bold">Register Time.</label>
+                        <span th:text="${info.registerTime}">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col">
+                        <label class="fw-bold">Modify ID.</label>
+                        <span th:text="${info.modifyId}">
+                    </div>
+                    <div class="col">
+                        <label class="fw-bold">Modify Time.</label>
+                        <span th:text="${info.modifyTime}">
+                    </div>
+                </div>
+                <div class="float-start">
+                    <button type="button" class="btn btn-success" onclick="javascript:location.href='/board'">Previous</button>
+                </div>
+                <div class="float-end">
+                    <button type="button" class="btn btn-danger" onclick="javascript:deleteBoard();">Delete</button>
+                    <button type="submit" class="btn btn-primary">Modify</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+<script th:inline="javascript">
+    let frm = $("#frmWrite");
+    let deleteFlag = false;
+    let deleteBoard = function() {
+        if (confirm("Do you want to delete it")) {
+            deleteFlag = true;
+            frm.attr("action","/board/delete");
+            frm.submit();
+        }
+    }
+
+    frm.submit(function() {
+        let info = [[${info}]];
+        let flag = false;
+        let msg = "Are you sure you want to register?";
+
+        if (deleteFlag) {
+            return true;
+        }
+
+        if (info != null && info != '') {
+            frm.attr("action", "/board/update");
+            msg = "Are you sure you want to modify?";
+        }
+
+        if (confirm(msg)) {
+            flag = true;
+        }
+
+        return flag;
+    });
+</script>
+</html>

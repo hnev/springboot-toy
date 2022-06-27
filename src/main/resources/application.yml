@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/toy
+    username: admin
+    password: venh1##
+  thymeleaf:
+    #?? ?? ?? ??? ??
+    #prefix: classpath:/templates/ 
+    prefix: file:src/main/resources/templates/
+    cache: false
