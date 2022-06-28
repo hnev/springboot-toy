@@ -19,7 +19,7 @@ public class BaseTimeEntity {
     @LastModifiedDate
     private LocalDateTime modifyTime;
 
-    public static String toStringDateTime(LocalDateTime localDateTime) {
+    public String toStringDateTime(LocalDateTime localDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return Optional.ofNullable(localDateTime)
                 .map(formatter::format)
