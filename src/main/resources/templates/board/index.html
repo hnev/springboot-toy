@@ -1,14 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <script src="/js/jquery-3.6.0.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/default_layout">
+<th:block layout:fragment="content">
     <div class="container mt-5">
         <h2>Toy - Board</h2>
         <div class="mt-3">
@@ -51,5 +43,5 @@
             </div>
         </div>
     </div>
-</body>
+</th:block>
 </html>

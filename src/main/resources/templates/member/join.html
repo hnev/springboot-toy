@@ -1,93 +1,85 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Join</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <script src="/js/jquery-3.6.0.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-</head>
-<body>
-<div class="container">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/default_layout">
+<th:block layout:fragment="content">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-5">
-                <div class="card shadow-lg border-0 rounded-lg mt-5">
-                    <div class="card-header">
-                        <h3 class="text-center fw-bold my-4">Join</h3>
-                    </div>
-                    <div class="card-body">
-                        <form id="frmJoin" action="/member/save" method="post">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Email.</label>
-                                <input type="email" class="form-control" name="email" maxlength="100" required>
-                                <p class="alert alert-danger" id="emailChk" style="display:none;"></p>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Password.</label>
-                                <input type="password" class="form-control" name="password" minlength="8" maxlength="200" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Gender.</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault1" value="M" checked>
-                                    <label class="form-check-label" for="flexRadioDefault1">Men</label>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                        <div class="card-header">
+                            <h3 class="text-center fw-bold my-4">Join</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="frmJoin" action="/member/save" method="post">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Email.</label>
+                                    <input type="email" class="form-control" name="email" maxlength="100" required>
+                                    <p class="alert alert-danger" id="emailChk" style="display:none;"></p>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2" value="W">
-                                    <label class="form-check-label" for="flexRadioDefault2">Woman</label>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Password.</label>
+                                    <input type="password" class="form-control" name="password" minlength="8" maxlength="200" required>
                                 </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                <a type="button" class="small" onclick="javascript:location.href='/member/login'">Sign in</a>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Gender.</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault1" value="M" checked>
+                                        <label class="form-check-label" for="flexRadioDefault1">Men</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2" value="W">
+                                        <label class="form-check-label" for="flexRadioDefault2">Woman</label>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                    <a type="button" class="small" onclick="javascript:location.href='/member/login'">Sign in</a>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</body>
-<script th:inline="javascript">
-    let frm = $("#frmJoin");
-    let emailChk = false;
+    <script th:inline="javascript">
+        let frm = $("#frmJoin");
+        let emailChk = false;
 
-    $("input[name='email']").on("focusout",function(){
-        $.ajax({
-            url: "/member/count-email",
-            method: "post",
-            dataType: "json",
-            data: { email: $("input[name='email']").val(), dropYn: "N" },
-            success: function(r) {
-                if (r.count > 0) {
-                    emailChk = false;
-                    $("#emailChk").show();
-                    $("#emailChk").text("This email is in use.");
-                } else {
-                    emailChk = true;
-                    $("#emailChk").hide();
+        $("input[name='email']").on("focusout",function(){
+            $.ajax({
+                url: "/member/count-email",
+                method: "post",
+                dataType: "json",
+                data: { email: $("input[name='email']").val(), dropYn: "N" },
+                success: function(r) {
+                    if (r.count > 0) {
+                        emailChk = false;
+                        $("#emailChk").show();
+                        $("#emailChk").text("This email is in use.");
+                    } else {
+                        emailChk = true;
+                        $("#emailChk").hide();
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("An error has occurred.");
                 }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert("An error has occurred.");
-            }
+            });
         });
-    });
 
-    frm.submit(function() {
-        let flag = false;
-        let msg = "Are you sure you want to Join?";
+        frm.submit(function() {
+            let flag = false;
+            let msg = "Are you sure you want to Join?";
 
-        if (!emailChk) return false;
+            if (!emailChk) return false;
 
-        if (confirm(msg)) {
-            flag = true;
-        }
+            if (confirm(msg)) {
+                flag = true;
+            }
 
-        return flag;
-    });
-</script>
+            return flag;
+        });
+    </script>
+</th:block>
 </html>

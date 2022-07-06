@@ -1,14 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <script src="/js/jquery-3.6.0.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/default_layout">
+<th:block layout:fragment="content">
     <div class="container mt-5">
         <h2>Board - Write</h2>
         <form id="frmWrite" action="/board/save" method="post">
@@ -20,11 +12,11 @@
                     <input type="text" class="form-control" name="title" maxlength="25" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Contents.</label>
+                    <label class="form-label fw-bold">Contents.</label>
                     <textarea class="form-control" name="contents" rows="5" maxlength="1000" required></textarea>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Use.</label>
+                    <label class="form-label fw-bold">Use.</label>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="useYn" id="flexRadioDefault1" value="Y" checked>
                         <label class="form-check-label" for="flexRadioDefault1">Y</label>
@@ -94,37 +86,37 @@
             </div>
         </form>
     </div>
-</body>
-<script th:inline="javascript">
-    let frm = $("#frmWrite");
-    let deleteFlag = false;
-    let deleteBoard = function() {
-        if (confirm("Do you want to delete it")) {
-            deleteFlag = true;
-            frm.attr("action","/board/delete");
-            frm.submit();
-        }
-    }
-
-    frm.submit(function() {
-        let info = [[${info}]];
-        let flag = false;
-        let msg = "Are you sure you want to register?";
-
-        if (deleteFlag) {
-            return true;
+    <script th:inline="javascript">
+        let frm = $("#frmWrite");
+        let deleteFlag = false;
+        let deleteBoard = function() {
+            if (confirm("Do you want to delete it")) {
+                deleteFlag = true;
+                frm.attr("action","/board/delete");
+                frm.submit();
+            }
         }
 
-        if (info != null && info != '') {
-            frm.attr("action", "/board/update");
-            msg = "Are you sure you want to modify?";
-        }
+        frm.submit(function() {
+            let info = [[${info}]];
+            let flag = false;
+            let msg = "Are you sure you want to register?";
 
-        if (confirm(msg)) {
-            flag = true;
-        }
+            if (deleteFlag) {
+                return true;
+            }
 
-        return flag;
-    });
-</script>
+            if (info != null && info != '') {
+                frm.attr("action", "/board/update");
+                msg = "Are you sure you want to modify?";
+            }
+
+            if (confirm(msg)) {
+                flag = true;
+            }
+
+            return flag;
+        });
+    </script>
+</th:block>
 </html>

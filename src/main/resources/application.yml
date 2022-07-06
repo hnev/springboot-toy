@@ -5,7 +5,6 @@ spring:
     username: admin
     password: venh1##
   thymeleaf:
-    #?? ?? ?? ??? ??
-    #prefix: classpath:/templates/ 
+    #prefix: classpath:/templates/
     prefix: file:src/main/resources/templates/
     cache: false
